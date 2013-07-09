@@ -50,7 +50,9 @@ class ProtoBufCompileTask extends DefaultTask {
 		}
 		
 		// Generate protos for each lang (java, cpp, python, etc.)
-		srcDir.eachFileMatch(~/.*\.proto/) { File protoFile ->
+		srcDir.eachFileRecurse(groovy.io.FileType.FILES) { File protoFile ->
+            		if (!protoFile.name.matches(~/.*\.proto/)) { return }
+		
 			fileCount++
 			
 			def os = System.getProperty('os.name')
